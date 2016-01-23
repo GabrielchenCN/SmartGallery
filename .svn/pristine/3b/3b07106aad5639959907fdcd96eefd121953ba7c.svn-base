@@ -1,0 +1,748 @@
+/*********************************画作首页 controller*************************/
+//btn to add Art
+$(function() {
+  $(document).on("click", ".addArt", function(e) {
+
+    window.location.href = "/art/addArt";
+  })
+})
+
+//btn to Search Art
+$(function() {
+  $("#searchArt").on('click', function(e) {
+    searchArts();
+
+
+  })
+})
+
+var searchArts = function() {
+  //alert(beacon._id);
+  var host = window.location.host;
+  var art = {};
+  art.title = $("#artTitle").val();
+  art.artist = $("#artArtist").val();
+  art.price = $("#artPrice").val();
+  console.log(art);
+
+  var sendurl = "http://" + host + "/odata/arts?$filter=";
+  
+  var artArr = [];
+  if (art.title) {
+   
+    artArr.push({
+      key: "title",
+      value: art.title
+    });
+
+    // alert(art.downprice.trim());
+    // sendurl = sendurl + "name eq " + "'" + galleries.name.trim() + "'";
+
+  };
+
+  if (art.artist) {
+    
+    artArr.push({
+      key: "artist",
+      value: art.artist
+    });
+    // alert(art.upprice.trim());
+
+    //alert(sendurl);
+  };
+
+  if (art.price) {
+    
+    artArr.push({
+      key: "price",
+      value: art.price
+    });
+    // alert(art.upprice.trim());
+
+    //alert(sendurl);
+  };
+  if (artArr) {
+    var glen = artArr.length;
+    if (glen == 1) {
+      sendurl = sendurl + artArr[0].key + " eq " + "'" + artArr[0].value + "'"
+    } else if (glen > 1) {
+      sendurl = sendurl + artArr[0].key + " eq " + "'" + artArr[0].value + "'"
+      for (var i = 1; i < glen; i++) {
+        sendurl = sendurl + " and " + artArr[i].key + " eq " + "'" + artArr[i].value + "'"
+      }
+    }
+
+
+  } else sendurl = "http://" + host + "/odata/arts";
+
+
+  // alert(urlo);
+  $.ajax({
+    type: "get",
+    //dataType: "json",
+    //url: "http://smartgallery.duapp.com/odata/arts?$filter=price le"++"",
+    url: sendurl,
+    //data: beacon,
+    success: function(data) {
+      if (data != "") {
+
+        alert(data.value.length + "：成功");
+        showArtsData(data);
+
+      }
+    },
+    statusCode: {
+
+      551: function() {
+        alert("跨域错误，稍后再试");
+        //location.reload() ;
+      }
+    }
+  });
+}
+
+
+var showArtsData = function(data) {
+  var j = 0;
+  $("#artLists").children("tbody").children("tr").remove();
+  for (var i = 0; i <= data.value.length - 1; i++) {
+    (function(i) {
+      j = i + 1;
+
+
+      //add multiView
+
+      $("#artLists").children("tbody").append('<tr><th> <a href="' + data.value[i].picURL + '"  target="_blank" class="thumbnail" ><img style="width:80px;height:80px" src="' +
+       data.value[i].posterURL + '" alt="..."></a></th><td>' + data.value[i].title + '</td><td>' + data.value[i].artist.name + '</td><td>' + data.value[i].price + '</td>' + 
+        '<td><button class="artSetting btn btn-info  btn-xs"  type="button">配置</button></td>' +
+        '<td><button class="btn btn-danger  btn-xs deleteArt"  type="button">删除</button></td>'+
+
+        '<td style="display:none" id="aid">' + data.value[i].id + '</td>' +
+
+        '</tr>'
+
+      );
+
+
+    })(i);
+  }
+}
+
+
+//btn to delete art
+$(function() {
+  $(document).on("click", ".deleteArt", function(e) {
+     if (!confirm("确认要删除画作："+$(this).parent().parent().children("td:eq(0)").text()+"?")) {
+            return false;
+        }
+      else{
+      var id = $(this).parent().parent().children("td:eq(5)").text();
+      var JSONObject = new Object();
+      JSONObject.id=id;
+      var host = window.location.host;
+      $.ajax({
+        type: "delete",
+        dataType: "json",
+        url: "http://" + host + "/art",
+
+        data: JSONObject,
+
+        success: function(data) {
+          //$('#myModel').modal('hide');
+
+
+        },
+        error: function(data) {
+          alert("删除失败！");
+        },
+        statusCode: {
+
+
+          200: function(data) {
+            alert("删除成功!");
+            searchArts();
+          },
+          203: function(data) {
+            alert(' Server Internal Error ,' + msg + '');
+
+          }
+
+        }
+      })
+
+      }
+  })
+});
+
+
+//配置画作
+
+$(function(){
+  $(document).on("click", ".artSetting ", function(e){
+   var id = $(this).parent().parent().children("td:eq(5)").text();
+    alert("click：" + id);
+    window.location.href = "/art/artSetting/" + id;
+
+
+  })
+})
+
+
+/**********************************画作增加 controller*************************/
+
+//绑定按钮
+$(function() {
+  $("#searchPic").on('click', function(e) {
+    searchPictures();
+
+
+  })
+})
+
+var searchPictures = function() {
+  //alert(beacon._id);
+  var host = window.location.host;
+  var pictures = {};
+  pictures.picName = $("#picName").val();
+  pictures.picFolder = $("#picFolder").val();
+  pictures.picType = $("#picType").val();
+  console.log(pictures);
+
+  var sendurl = "http://" + host + "/odata/pictures?$filter=";
+  var picturesNum = 0;
+  var picturesArr = [];
+  if (pictures.picName) {
+    picturesNum++;
+    picturesArr.push({
+      key: "picName",
+      value: pictures.picName
+    });
+    // alert(art.downprice.trim());
+    // sendurl = sendurl + "name eq " + "'" + pictures.name.trim() + "'";
+
+  };
+
+  if (pictures.picFolder) {
+    picturesNum++;
+    picturesArr.push({
+      key: "picFolder",
+      value: pictures.picFolder
+    });
+    // alert(art.upprice.trim());
+
+    //alert(sendurl);
+  };
+
+  if (pictures.picType) {
+    picturesNum++;
+    picturesArr.push({
+      key: "picType",
+      value: pictures.picType
+    });
+    // alert(art.upprice.trim());
+
+    //alert(sendurl);
+  };
+  if (picturesArr) {
+    var glen = picturesArr.length;
+    if (glen == 1) {
+      sendurl = sendurl + picturesArr[0].key + " eq " + "'" + picturesArr[0].value + "'"
+    } else if (glen > 1) {
+      sendurl = sendurl + picturesArr[0].key + " eq " + "'" + picturesArr[0].value + "'"
+      for (var i = 1; i < glen; i++) {
+        sendurl = sendurl + " and " + picturesArr[i].key + " eq " + "'" + picturesArr[i].value + "'"
+      }
+    }
+
+
+  } else sendurl = "http://" + host + "/odata/pictures";
+
+
+  // alert(urlo);
+  $.ajax({
+    type: "get",
+    //dataType: "json",
+    //url: "http://smartgallery.duapp.com/odata/arts?$filter=price le"++"",
+    url: sendurl,
+    //data: beacon,
+    success: function(data) {
+      if (data != "") {
+
+        alert(data.value.length + "：成功");
+        showpicturesData(data);
+
+      }
+    },
+    statusCode: {
+
+      551: function() {
+        alert("跨域错误，稍后再试");
+        //location.reload() ;
+      }
+    }
+  });
+}
+
+
+//绑定数据
+var showpicturesData = function(data) {
+  var j = 0;
+  $("#picLists").children("tbody").children("tr").remove();
+  for (var i = 0; i <= data.value.length - 1; i++) {
+    (function(i) {
+      j = i + 1;
+
+
+      //add multiView
+
+      $("#picLists").children("tbody").append('<tr><th> <a href="' + data.value[i].picURL + '"  target="_blank" class="thumbnail" ><img style="width:80px;height:80px" src="' +
+       data.value[i].picURL + '" alt="..."></a></th><td>' + data.value[i].picName + 
+       '</td><td>' + data.value[i].picFolder + '</td><td>' + data.value[i].picType + 
+       '</td>' + '<td><button class="btn btn-info  btn-xs toPosterURL"  type="button">设为主图片</button></td>' +
+       '</br><td><button class="btn btn-info  btn-xs toMultiView"  type="button">设为细节图</button></td>' +
+        '<td style="display:none" id="pid">' + data.value[i].id + '</td>' +
+
+        '</tr>'
+
+      );
+
+
+    })(i);
+  }
+}
+
+//设置为主图片
+//choose picture btn 
+$(function() {
+  $(document).on("click", ".toPosterURL", function(e) {
+
+    var picURL = $(this).parent().parent().children('th').children("a").children("img").attr('src');
+    $("#showposterURL").attr('src', picURL);
+
+  })
+
+});
+//设置为细节图
+
+$(function() {
+  $(document).on("click", ".toMultiView", function(e) {
+   
+    /* $(".addsearch").on("click",function(e){*/
+    var picURL = $(this).parent().parent().children('th').children("a").children("img").attr('src');
+    var picName = $(this).parent().parent().children("td:eq(0)").text();
+    var picFolder = $(this).parent().parent().children("td:eq(1)").text();
+    var picType = $(this).parent().parent().children("td:eq(2)").text();
+   
+
+
+    $("#uploadtable").children("tbody").append('<tr><th> <a href="' + 
+      picURL + '"  target="_blank" class="thumbnail" ><img style="width:80px;height:80px" src="' +
+       picURL + '" alt="..."></a></th><td>' + picName + 
+       '</td><td>' + picFolder + '</td><td>' + picType + 
+       '</td>' + '<td><button class="btn btn-warning  btn-xs deleteMutiPic"  type="button">取消</button></td>' +
+       
+      
+
+        '</tr>');
+
+
+  });
+});
+
+//取消细节图
+$(function() {
+  $(document).on("click", ".deleteMutiPic", function(e) {
+    $(this).parent().parent().remove();
+   
+
+
+  });
+});
+
+
+//get artist lists
+$(function() {
+   var host = window.location.host;
+  $.ajax({
+    type: "get",
+    //dataType: "json",
+    /*url: "http://smartgallery.duapp.com/odata/exhibitions",*/
+    url: "http://"+host+"/odata/artists",
+    //data: exhi,
+    success: function(data) {
+      if (data != "") {
+        for (var i = 0; i <= data.value.length - 1; i++) {
+          $("#selectArtist").append('<option value = "' + data.value[i].id + '" >' + data.value[i].name + '</option>')
+
+        }
+   
+
+      } else alert("跨域请求错误！");
+    },
+    error: function(data) {
+      alert("Server Error , Please Refresh");
+      location.reload();
+
+    }
+  });
+
+})
+
+//get artcategories info 
+$(function() {
+ var host = window.location.host;
+  $.ajax({
+    type: "get",
+    //dataType: "json",
+    /*url: "http://smartgallery.duapp.com/odata/exhibitions",*/
+    url: "http://"+host+"/odata/artcategories",
+    //data: exhi,
+    success: function(data) {
+      if (data != "") {
+       for (var i = 0; i <= data.value.length - 1; i++) {
+          $("#artcateName").append('<option value = "' + data.value[i].cateName + '" >' + data.value[i].cateName + '</option>')
+
+        }
+
+
+      } else alert("跨域请求错误！");
+    }
+  });
+
+});
+
+
+//post method 2.0
+//保证信息不为空
+$(function() {
+  $(document).on("click", "#submitArtfirst", function(e) {
+    var isEmpty = "";
+
+    $("form input,textarea").each(function() {
+      if ($(this).val() == ''&& $(this).attr('placeholder') !='') {
+        isEmpty = isEmpty + $(this).attr('placeholder') + ',';
+
+
+      }
+    })
+    if($(".deleteMutiPic").length == 0){
+        isEmpty=isEmpty+"细节图"+ ','
+    }
+
+     if($("#showposterURL").attr("src") == ""){
+        isEmpty=isEmpty+"主图片"
+    }
+    
+   
+    if (isEmpty != '') {
+      alert("以下信息不可为空：" + isEmpty);
+      $('#myModel').modal('hide');
+    }
+    //post art
+    else {
+        var host = window.location.host;
+  var url = "http://" + host + "/art/addArt";
+    var JSONObject = new Object();
+    var artist = new Object();
+    var multiView = [];
+   
+
+
+    artist._id = $("#selectArtist").val();
+    artist.name = $("#selectArtist").find("option:selected").text()
+    JSONObject._id = $("#artid").val();
+    JSONObject.title = $("#arttitle").val();
+    JSONObject.artist = artist;
+    JSONObject.price = $("#artprice").val();
+    JSONObject.size = $("#artsize").val();
+    JSONObject.decsription = $("#artdecsription").val();
+    JSONObject.year = $("#artyear").val();
+    JSONObject.cateName = $("#artcateName").val();
+    JSONObject.posterURL = $("#showposterURL").attr("src");
+    JSONObject.posterThumbnailURL = $("#showposterURL").attr("src");
+     $("#uploadtable tbody").children().each(function() {
+         var multiViewEle = {};
+         multiViewEle.url = $(this).children("th").children("a").children("img").attr('src');
+         multiView.push(multiViewEle);
+         console.log(multiView);
+    })
+   
+    JSONObject.multiView=multiView;
+
+   $.ajax({
+    type: "post",
+    dataType: "json",
+    url: url,
+    //url: "http://127.0.0.1:18080/exhi/postExhi",
+    /*url: "http://smartgallery.duapp.com/exhi/postExhi",*/
+    data: JSONObject,
+    statusCode: {
+
+
+      200: function(data) {
+        alert('success，art is "' + data.msg);
+        if (data.newid) {
+         
+           window.location.href = "http://" + host + "/art/artSetting/"+data.newid;
+        }else{
+         
+           location.reload();
+        }
+        
+       
+      },
+      506: function(data) {
+        alert(' Server Internal Error ,' + data.msg + '');
+
+      }
+
+    }
+  });
+
+    }
+
+    return false;
+
+
+
+  })
+
+});
+
+
+
+
+
+
+
+// post method
+/*var submitArt = function(art) {
+  var host = window.location.host;
+  var url = "http://" + host + "/art/addArt";
+  //  alert(url);
+  $.ajax({
+    type: "post",
+    dataType: "json",
+    url: url,
+    //url: "http://127.0.0.1:18080/exhi/postExhi",
+   
+    data: art,
+    statusCode: {
+
+
+      200: function(data) {
+        alert('success，art is "' + data.art + '"');
+        location.reload();
+      },
+      506: function(data) {
+        alert(' Server Internal Error ,' + data.error + '');
+
+      }
+
+    }
+  });
+}
+
+//上传图片并且存储数据到数据库
+$(function() {
+  $(document).on("click", "#submitArtsecond", function(e) {
+    var host = window.location.host;
+    //获取数据
+    var JSONObject = new Object();
+    var artist = new Object();
+    artist._id = $("#selectArtist").val();
+    artist.name = $("#selectArtist").find("option:selected").text()
+    JSONObject._id = '';
+    JSONObject.title = $("#arttitle").val();
+    JSONObject.artist = artist;
+    JSONObject.price = $("#artprice").val();
+    JSONObject.size = $("#artsize").val();
+    JSONObject.decsription = $("#artdecsription").val();
+    JSONObject.year = $("#artyear").val();
+    JSONObject.cateName = $("#artcateName").val();
+    JSONObject.posterURL = '';
+    JSONObject.posterThumbnailURL = '';
+
+    if ($("#submitArtsecond").parent().parent().children('.modal-body').children().val() == "1") {
+      //上传到服务器并且存储数据到数据库,不支持老IE
+      var formData = new FormData($("#uploadForm")[0]);
+      //var formData = new FormData($("#posterURL"));
+      $.ajax({
+        url: 'http://' + host + '/art/uploadPic/1',
+        type: 'POST',
+        data: formData,
+        async: true,//异步执行
+        cache: false,
+        processData: false, // 告诉jQuery不要去处理发送的数据
+        contentType: false, // 告诉jQuery不要去设置Content-Type请求头
+        beforeSend: function() {
+          $('#submitArtsecond').attr('disabled', 'disabled');
+          $('.modal-body').append('<div><progress><span id="objprogress">85</span>%</progress></div>')
+
+        },
+         completed:function(){
+         
+
+          },
+        success: function(returndata) {
+
+
+        },
+        error: function(returndata) {
+
+          $('#submitArtsecond').removeAttr('disabled');
+          $('progress').remove();
+          alert("error on upload picture,Please upload again!");
+        },
+        statusCode: {
+
+ 
+          200: function(returndata) {
+            var multiView = [];
+            JSONObject.posterURL = returndata.msg;
+            JSONObject.posterThumbnailURL = returndata.msg;
+            JSONObject.multiView=returndata.multiView;
+            $.ajax({
+              type: "post",
+              dataType: "json",
+              url: "http://" + host + "/art/addArt",
+
+              data: JSONObject,
+
+              success: function(data) {
+                //$('#myModel').modal('hide');
+                $('progress').attr('value', '100');
+                $('progress').after('<p>上传已成功,继续上传,请<a href=""http://' + host + '/art/addArt"">刷新</a></p>');
+                alert("Save Successful");
+              },
+              error: function(data) {
+                //alert(' Can not enter Server' + url);
+              },
+              statusCode: {
+
+
+                200: function(data) {
+
+                  // location.reload();
+                },
+                506: function(data) {
+                  alert(' Server Internal Error ,' + data.error + '');
+
+                }
+
+              }
+            })
+          },
+          //文件冲突
+          203: function(data) {
+             $('#submitArtsecond').removeAttr('disabled');
+              $('progress').parent().remove();
+
+            alert('File exists');
+
+          }
+
+        }
+      });
+
+
+  
+
+    } else if ($("#submitArtsecond").parent().parent().children('.modal-body').children().val() == "2") {
+      //上传到cloudinary并且存储数据到数据库
+       //上传到服务器并且存储数据到数据库,不支持老IE
+      var formData = new FormData($("#uploadForm")[0]);
+      //var formData = new FormData($("#posterURL"));
+      $.ajax({
+        url: 'http://' + host + '/art/uploadPic/2',
+        type: 'POST',
+        data: formData,
+        async: true,//异步执行
+        cache: false,
+        processData: false, // 告诉jQuery不要去处理发送的数据
+        contentType: false, // 告诉jQuery不要去设置Content-Type请求头
+        beforeSend: function() {
+          $('#submitArtsecond').attr('disabled', 'disabled');
+          $('.modal-body').append('<div><progress><span id="objprogress">85</span>%</progress><p>正在上传</p></div>');
+
+        },
+        completed:function(){
+          $('progress').parent().remove();
+
+          },
+        success: function(returndata) {
+
+
+        },
+        error: function(returndata) {
+
+          $('#submitArtsecond').removeAttr('disabled');
+          
+            $('progress').parent().remove();
+          alert("error on upload picture,Please upload again!");
+        },
+        statusCode: {
+
+ 
+          200: function(returndata) {
+            JSONObject.multiView=returndata.multiView;
+            JSONObject.posterURL = returndata.posterURL;
+            JSONObject.posterThumbnailURL = returndata.posterThumbnailURL;
+            $.ajax({
+              type: "post",
+              dataType: "json",
+              url: "http://" + host + "/art/addArt",
+
+              data: JSONObject,
+
+              success: function(data) {
+                //$('#myModel').modal('hide');
+                $('progress').attr('value', '100');
+                $('progress').after('<p>上传已成功,继续上传,请<a href=""http://' + host + '/art/addArt"">刷新</a></p>');
+                alert("Save Successful");
+              },
+              error: function(data) {
+                //alert(' Can not enter Server' + url);
+              },
+              statusCode: {
+
+
+                200: function(data) {
+
+                  // location.reload();
+                },
+                506: function(data) {
+                  alert(' Server Internal Error ,' + data.error + '');
+
+                }
+
+              }
+            })
+          },
+          //文件冲突
+          203: function(data) {
+             $('#submitArtsecond').removeAttr('disabled');
+              $('progress').parent().remove();
+
+            alert('upload failed!');
+
+          }
+
+        }
+      });
+    }
+
+
+  })
+
+});
+*/
+
+
+/*$('document').ready(function() {
+  $('#addMultiView').click(function(e) {
+       $("#multiViewLabel").after('<input type="file" class="form-control multiView" name="multiView" id="multiView" placeholder="细节图"/>');
+
+  
+  });
+});*/

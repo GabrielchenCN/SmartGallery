@@ -1,0 +1,20 @@
+extends layout
+
+block content
+  div
+   h1 #{exhi.subject}
+    
+   - each exobj in Art
+      div 
+         p beacon配置
+         a(href="../../exhi/beacons/"+exobj._id+"/"+exhi._id)=exobj.title
+         label artName 
+         input#inputUserName(type="text", placeholder="t_beacon_id", name="exobj.title",value=exobj.title,disabled="disabled" )
+         label Id 
+         input#inputUserName(type="text", placeholder="t_beaconId", name="exobj._id",value=exobj._id,disabled="disabled" )
+       
+         br
+        
+
+
+

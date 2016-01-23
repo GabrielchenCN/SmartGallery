@@ -1,0 +1,29 @@
+var express = require('express');
+var router = express.Router();
+var async = require('async');
+var needle = require('needle');
+
+/* GET home page. */
+router.get('/', function (req, res, next) {
+  if (!req.query["id"]) {return;}
+var fvalue = req.query["id"];
+var surl = 'http://smartgallery.duapp.com/odata/arts?$filter=_id%20eq%20%27'+  fvalue + '%27';
+
+
+    console.log(surl);
+needle.get(surl,function(err,resp){
+    console.log(resp.body.value[0]);
+    
+    var paint = resp.body.value[0];
+   res.render('paint',{ paint: paint }
+     );
+});
+
+  
+});
+
+
+
+
+
+module.exports = router;

@@ -1,0 +1,211 @@
+var searchGalleries = function() {
+  //alert(beacon._id);
+  var host = window.location.host;
+  var galleries = {};
+  galleries.name = $("#galleryName").val();
+  galleries.city = $("#city").val();
+  galleries.address = $("#address").val();
+  console.log(galleries);
+
+  var sendurl = "http://"+host+"/odata/galleries?$filter=";
+  var galleriesNum = 0;
+  var galleriesArr = [];
+  if (galleries.name) {
+    galleriesNum++;
+    galleriesArr.push({
+      key: "name",
+      value: galleries.name
+    });
+    
+    // alert(art.downprice.trim());
+    // sendurl = sendurl + "name eq " + "'" + galleries.name.trim() + "'";
+
+  };
+
+  if (galleries.city) {
+    galleriesNum++;
+    galleriesArr.push({
+      key: "city",
+      value: galleries.city
+    });
+    // alert(art.upprice.trim());
+
+    //alert(sendurl);
+  };
+
+  if (galleries.address) {
+    galleriesNum++;
+    galleriesArr.push({
+      key: "address",
+      value: galleries.address
+    });
+    // alert(art.upprice.trim());
+
+    //alert(sendurl);
+  };
+  if (galleriesArr) {
+    var glen = galleriesArr.length;
+    if (glen == 1) {
+      sendurl = sendurl + galleriesArr[0].key + " eq " + "'" + galleriesArr[0].value + "'"
+    } else if (glen > 1) {
+      sendurl = sendurl + galleriesArr[0].key + " eq " + "'" + galleriesArr[0].value + "'"
+      for (var i = 1; i < glen; i++) {
+        sendurl = sendurl + " and " + galleriesArr[i].key + " eq " + "'" + galleriesArr[i].value + "'"
+      }
+    }
+
+
+  } else sendurl = "http://"+host+"/odata/galleries";
+
+
+  // alert(urlo);
+  $.ajax({
+    type: "get",
+    //dataType: "json",
+    //url: "http://smartgallery.duapp.com/odata/arts?$filter=price le"++"",
+    url: sendurl,
+    //data: beacon,
+    success: function(data) {
+      if (data != "") {
+
+        alert(data.value.length + "：成功");
+        showGalleriesData(data);
+
+      }
+    },
+    statusCode: {
+
+      551: function() {
+        alert("跨域错误，稍后再试");
+        //location.reload() ;
+      }
+    }
+  });
+}
+
+
+$(function() {
+  $("#searchGallery").on('click', function(e) {
+    searchGalleries();
+
+
+  })
+})
+
+var showGalleriesData = function(data) {
+  var j = 0;
+  $("#galleryLists").children("tbody").children("tr").remove();
+  for (var i = 0; i <= data.value.length - 1; i++) {
+    (function(i) {
+      j = i + 1;
+
+
+      //add multiView
+
+      $("#galleryLists").children("tbody").append('<tr><th scope = "row">' + j + '</th><td>' + data.value[i].name + '</td><td>' + data.value[i].city + '</td><td>' + data.value[i].address + '</td>' + '<td><button class="btn btn-info  btn-xs gallerySetting"  type="button">配置</button></td>' +
+
+        '<td style="display:none" id="gid">' + data.value[i].id + '</td>' +
+
+        '</tr>'
+
+      );
+
+
+    })(i);
+  }
+}
+
+//btn to set gallery
+$(function() {
+  $(document).on("click", ".gallerySetting", function(e) {
+    var id = $(this).parent().parent().children("td:eq(4)").text();
+    alert("click"+id);
+    window.location.href = "/galleries/gallerySetting/"+id;
+  })
+})
+
+//btn to add gallery
+$(function() {
+  $(document).on("click", ".addGallery", function(e) {
+   
+    window.location.href = "/galleries/addGallery";
+  })
+})
+
+
+//保证信息不为空
+$(function() {
+  $(document).on("click", "#submitGalleryfirst", function(e) {
+    var isEmpty = "";
+
+    $("#uploadForm input,textarea").each(function() {
+      if ($(this).val() == '') {
+        isEmpty = isEmpty + $(this).attr('placeholder') + ',';
+
+
+      }
+    })
+    if (isEmpty != '') {
+      alert("以下信息不可为空：" + isEmpty);
+      $('#myModel').modal('hide');
+    }
+
+    return false;
+
+
+
+  })
+
+});
+
+
+//上传图片并且存储数据到数据库
+$(function() {
+  $(document).on("click", "#submitGalleryfirst", function(e) {
+    var host = window.location.host;
+    //获取数据
+    var JSONObject = new Object();
+   
+    JSONObject._id = $("#gid").val();;
+    JSONObject.name = $("#galleryName").val();
+    JSONObject.city =$("#city").val();
+    JSONObject.address = $("#address").val();
+    JSONObject.posterURL = $("#showposterURL").val();
+    JSONObject.longitude = $("#longitude").val();
+    JSONObject.latitude = $("#latitude").val();
+    JSONObject.description = $("#description").val();
+    
+     $.ajax({
+              type: "post",
+              dataType: "json",
+              url: "http://" + host + "/galleries/ModifyGallery",
+
+              data: JSONObject,
+
+              success: function(data) {
+                //$('#myModel').modal('hide');
+               
+                alert("上传成功，配置图片请点击上传按钮！");
+              },
+              error: function(data) {
+                alert("上传失败！");
+              },
+              statusCode: {
+
+
+                200: function(data) {
+                  alert('success');
+                  // location.reload();
+                },
+                506: function(data) {
+                  alert(' Server Internal Error ,' + data.error + '');
+
+                }
+
+              }
+            })
+  
+   
+});
+
+  });

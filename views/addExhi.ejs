@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+     <script src="/javascripts/jquery-1.11.3.min.js"></script>
+    <!-- 上述3个meta标签*必须*放在最前面，任何其他内容都*必须*跟随其后！ -->
+    <title><%=title%></title>
+    <!--<script src="http://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>-->
+     
+    <!-- Bootstrap -->
+    <link href="/stylesheets/bootstrap.min.css" rel="stylesheet">
+     <!--   DatePicker -->
+    <script type="text/javascript" src="/javascripts/bootstrap-datepicker.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="/stylesheets/bootstrap-datepicker3.min.css" />
+    
+     <!--   common.js -->
+     <script type="text/javascript" src="/javascripts/common.js"></script>
+      <script type="text/javascript" src="/javascripts/exhi-controller.js"></script>
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+      <script src="//cdn.bootcss.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="//cdn.bootcss.com/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    <script type="text/javascript">
+    $(document).ready(function () {
+  //your code here
+  $('#sandbox-container .input-daterange').datepicker({
+     format: "yyyy-mm-dd",
+     autoclose: true
+});
+});
+
+     $(document).ready(function () {
+  //your code here
+  $('.navbar-nav li').each(function(){$(this).removeClass('active')});
+  $('.navbar-nav li:eq()');
+});
+  
+
+
+</script>
+  </head>
+  <body>
+     <% include base.ejs %>
+  <!-- <div class="jumbotron" align="center">
+  <h1>新增展会</h1>
+  <p>此页面用于新增展会</p>
+  <p><a class="btn btn-primary btn-lg" href="#begin" role="button">开始</a></p>
+  </div> -->
+<div class="panel panel-default">
+  <div class="panel-heading" id="begin"align="center">
+    <h1 align="center">展会信息</h1></div>
+   <div class="panel-body"> 
+<form id="uploadForm">
+  <div class="form-group">
+    <label for="subject">展会名称</label>
+    <input type="text" class="form-control" id="subject" placeholder="展会名称" value='<%=exhi.subject%>'>
+  </div>
+  <div class="form-group">
+    <label for="decsription">展会描述</label>
+   <!--  <input type="text" class="form-control" id="decsription" placeholder="展会描述"> -->
+     <textarea class="form-control" rows="3" id="decsription" placeholder="展会描述" ><%=exhi.decsription%></textarea>
+  </div>
+
+  <div class="form-group">
+    <label for="address">展会地址</label>
+    <input type="text" class="form-control" id="address" placeholder="展会地址" value='<%=exhi.address%>'>
+  </div>
+
+   <div class="form-group" id = "artcate">
+    <label for="artCategory">画作类型</label>
+   
+
+  </div>
+
+    <div class="form-group">
+    <label for="vanue">展馆名称</label>
+    <input type="text" class="form-control" id="vanue" placeholder="展馆名称" value='<%=exhi.vanue%>'>
+  </div>
+   <div class="form-group">
+    <label for="curator">馆长</label>
+    <input type="text" class="form-control" id="curator" placeholder="馆长" value='<%=exhi.curator%>'>
+  </div>
+   
+  <div class="form-group">
+    <label for="date">展会时间</label>
+  </div>
+<div class="form-group">
+<div id="sandbox-container">
+<div class="input-daterange input-group" id="datepicker">
+    
+    <input type="text" class="input-sm form-control" name="startDate" id="startDate"/>
+     <!-- <input type="text" class="input-sm form-control" name="startTime" id="startTime"/> -->
+    <span class="input-group-addon">to</span>
+
+    <input type="text" class="input-sm form-control" name="endDate" id="endDate"/>
+     <!-- <input type="text" class="input-sm form-control" name="startTime" id="endTime"/> -->
+    </div>
+</div>
+</div>
+
+<div class="form-group">
+<div class="row">
+  <div class="col-md-6">
+    <label for="startTime">开始时间</label>
+
+  <input type="text" class="form-control" name="startTime" id="startTime" placeholder="10:00"/>
+ </div>
+  <div class="col-md-6">
+    <label for="endTime">结束时间</label>
+
+   <input type="text" class="form-control" name="startTime" id="endTime" placeholder="10:00"/>
+  </div>
+</div>
+</div>
+
+<!-- <div class="form-group">
+   <label for="posterURL">展会图片</label>
+    <input type="file" class="form-control" name="posterURL" id="posterURL" placeholder=""/>
+    <button>上传</button>
+</div> -->
+
+<!-- <div class="form-group">
+   <label for="posterURL">展会图片</label>
+    <input type="text" class="form-control" name="posterURL" id="posterURL" placeholder="目前请输入图片url"/>
+   <button>上传</button>
+</div> -->
+
+
+
+
+
+<div class="showPic">
+  <p>展会主图片</p>
+  <div class = "showPoster">
+    <img src='<%=exhi.posterURL%>' alt="..." class="img-responsive" style="width:150px" id="showposterURL">
+  </div>
+  <p>展会场景图片</p>
+  <div class = "showScene">
+ 
+  </div>
+  
+</div>
+
+
+<button type="button" class="btn btn-primary" data-toggle="modal" data-target=".bs-example-modal-sm" id="submitExhifirst">Submit</button>
+
+</form>
+
+
+</div>
+
+<div align="center">
+  <h2 >图片搜索</h2>
+  <form class="form-inline">
+    <div class="form-group">
+    <label for="picName">名称:</label>
+    <input type="text" class="form-control" id="picName" placeholder="">
+  </div>
+  <div class="form-group">
+    <label for="picFolder">文件夹:</label>
+    <input type="text" class="form-control" id="picFolder" placeholder="">
+  </div>
+  <div class="form-group">
+    <label for="picType">类别（用途）:</label>
+    <input type="text" class="form-control" id="picType" placeholder="">
+  </div>
+  <button type="button" class="btn btn-default" id="searchPic">Search</button>
+</form>
+<div align="center">
+<div class="row">
+  <div class="col-md-5 col-md-offset-1">
+  <div class="panel panel-default">
+  <!-- Default panel contents -->
+  <div class="panel-heading">搜索列表</div>
+
+  <!-- Table -->
+   <table class="table table-hover" id = "picLists">
+    <thead>
+      <tr>
+        <th>缩略图</th>
+        <th>图片名称</th>
+        <th>所属文件夹</th>
+        <th>类别（用途）</th>
+        
+        <th>操作</th>
+      </tr>
+    </thead>
+    <tbody>
+   <!--  <tr>
+     <th scope = "row">1</th>
+     <td>程序员</td>
+     <td>1200</td>
+     <td>抽象画</td>
+   
+     <td><button  type="button" class="addsearch btn btn-info  btn-xs" >配置</button></td>
+      
+      
+   </tr>  -->
+        <!-- <tr>
+        <th scope = "row">2</th>
+        <td>程序员</td>
+        <td>1200</td>
+        <td>抽象画</td>
+               
+        <td><button  type="button" class="addsearch btn btn-info  btn-xs" >配置</button></td>
+        
+        
+              </tr>
+         -->
+    </tbody>
+  </table>
+</div>
+  </div>
+ <!--  <div class="col-md-2">
+   
+  </div> -->
+  <div class="col-md-5">
+      <div class="panel panel-default">
+  <!-- Default panel contents -->
+  <div class="panel-heading">细节图表</div>
+
+  <!-- Table -->
+  <table class="table table-hover"  id = "uploadmutitable">
+    <thead>
+     <tr>
+        <th>缩略图</th>
+        <th>图片名称</th>
+        <th>所属文件夹</th>
+        <th>类别（用途）</th>
+        
+        <th>操作</th>
+      </tr>
+    </thead>
+    <tbody>
+   
+
+    </tbody>
+  </table>
+</div>
+  </div>
+</div>
+
+</div>
+
+
+
+
+
+
+
+</div>
+
+
+<div align="center">
+  <h2 >画作搜索</h2>
+  <form class="form-inline">
+  <div class="form-group">
+    <label for="title ">画作名称 </label>
+    <input type="text" class="form-control" id="artTitle"  placeholder="">
+  </div>
+  <div class="form-group">
+    <label for="downprice">最低价格</label>
+    <input type="text" class="form-control" id="downprice" placeholder="" value = "0">
+  </div>
+   <div class="form-group">
+    <label for="upprice">最高价格</label>
+    <input type="text" class="form-control" id="upprice" placeholder="">
+  </div>
+   <div class="form-group">
+    <label for="cateName">类别</label>
+    <input type="text" class="form-control" id="cateName" placeholder="">
+  </div>
+  <div class="form-group">
+    <label for="artist">作者</label>
+    <input type="text" class="form-control" id="artist" placeholder="">
+  </div>
+  <button type="button" class="btn btn-default" id="searchArt">Search</button>
+</form>
+<div align="center">
+<div class="row">
+  <div class="col-md-5 col-md-offset-1">
+  <div class="panel panel-default">
+  <!-- Default panel contents -->
+  <div class="panel-heading">搜索列表</div>
+
+  <!-- Table -->
+  <table class="table table-hover" id = "searchtable">
+    <thead>
+      <tr>
+        <th>No.</th>
+        <th>画作名称</th>
+        <th>价格</th>
+        <th>类别</th>
+        <th>作者</th>
+        <th>操作</th>
+      </tr>
+    </thead>
+    <tbody>
+    <!--   <tr>
+        <th scope = "row">1</th>
+        <td>程序员</td>
+        <td>1200</td>
+        <td>抽象画</td>
+        <td>Gabriel Chen</td>
+        <td><button  type="button" class="addsearch btn btn-info  btn-xs" >add</button></td>
+
+
+      </tr> -->
+
+    </tbody>
+  </table>
+</div>
+  </div>
+ <!--  <div class="col-md-2">
+   
+  </div> -->
+  <div class="col-md-5">
+      <div class="panel panel-default">
+  <!-- Default panel contents -->
+  <div class="panel-heading">上传列表</div>
+
+  <!-- Table -->
+  <table class="table table-hover"  id = "uploadtable">
+    <thead>
+      <tr>
+        <th>No.</th>
+        <th>画作名称</th>
+        <th>价格</th>
+        <th>类别</th>
+        <th>作者</th>
+        <th>操作</th>
+      </tr>
+    </thead>
+    <tbody>
+   
+
+    </tbody>
+  </table>
+</div>
+  </div>
+</div>
+
+</div>
+
+
+
+
+
+
+
+</div>
+
+
+   
+ 
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+   
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script src="/javascripts/bootstrap.min.js"></script>
+    
+  </body>
+</html>

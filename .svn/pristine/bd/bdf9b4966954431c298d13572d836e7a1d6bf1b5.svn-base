@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+	<meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+     <script src="/javascripts/jquery-1.11.3.min.js"></script>
+    <!-- 上述3个meta标签*必须*放在最前面，任何其他内容都*必须*跟随其后！ -->
+    <title><%=title%></title>
+    <!--<script src="http://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>-->
+     
+    <!-- Bootstrap -->
+    <link href="/stylesheets/bootstrap.min.css" rel="stylesheet">
+     <!--   DatePicker -->
+    <script type="text/javascript" src="/javascripts/bootstrap-datepicker.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="/stylesheets/bootstrap-datepicker3.min.css" />
+    
+     <!--   gallery-controller.js -->
+     <script type="text/javascript" src="/javascripts/galleries-controller.js"></script>
+	<title>gallery</title>
+</head>
+<body>
+  <% include base.ejs %>
+	 <div class="jumbotron" align="center">
+  <h1>画廊</h1>
+  <p>此页面用于配置画廊</p>
+  <p><a class="btn btn-primary btn-lg addGallery"  role="button">新增</a></p>
+</div>
+
+<div align="center">
+  <h2 >画廊搜索</h2>
+  <form class="form-inline">
+  <div class="form-group">
+    <label for="galleryName">名称</label>
+    <input type="text" class="form-control" id="galleryName" placeholder="">
+  </div>
+  <div class="form-group">
+    <label for="city">城市</label>
+    <input type="text" class="form-control" id="city" placeholder="">
+  </div>
+  <div class="form-group">
+    <label for="address">地址</label>
+    <input type="text" class="form-control" id="address" placeholder="">
+  </div>
+     <button type="button" class="btn btn-default" id="searchGallery">Search</button>
+</form>
+
+<div class="galleryLists">
+ <div class="row">
+  <div class="col-md-6 col-md-offset-3">
+  <div class="panel panel-default">
+
+    <div class="panel-heading">搜索列表</div>
+    <table class="table table-hover" id = "galleryLists">
+    <thead>
+      <tr>
+        <th>No.</th>
+        <th>画廊名称</th>
+        <th>所在城市</th>
+        <th>地址</th>
+        
+        <th>操作</th>
+      </tr>
+    </thead>
+    <tbody>
+    <!--  <tr>
+       <th scope = "row">1</th>
+       <td>程序员</td>
+       <td>1200</td>
+       <td>抽象画</td>
+     
+       <td><button  type="button" class="addsearch btn btn-info  btn-xs" >配置</button></td>
+    
+    
+     </tr> -->
+        <!-- <tr>
+        <th scope = "row">2</th>
+        <td>程序员</td>
+        <td>1200</td>
+        <td>抽象画</td>
+               
+        <td><button  type="button" class="addsearch btn btn-info  btn-xs" >配置</button></td>
+        
+        
+              </tr>
+         -->
+    </tbody>
+  </table>
+  </div>
+
+</div>
+
+</div>
+    
+</div>
+	
+</body>
+</html>

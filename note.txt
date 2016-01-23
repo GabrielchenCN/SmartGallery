@@ -1,0 +1,2 @@
+var result = cloudinary.utils.sign_request({timestamp: cloudinary.utils.timestamp()}, {api_key: "api_key", api_secret: "api_secret"}); 生成签名api
+node.js 包里的

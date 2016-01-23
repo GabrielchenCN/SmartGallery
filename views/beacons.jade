@@ -1,0 +1,63 @@
+extends layout
+
+
+block content
+    h1= title
+    label artID
+    p#artID #{artID}
+    label exhiID
+    p#exhiID #{exhiID}
+    
+    
+    -if (list)
+     -var i= 0
+     
+
+     - each obj in list 
+      
+      -obj.num=i
+      -i++
+
+      form.form-inline(name="beacon",method="put",action="",enctype="application/json" id="beacon"+i)
+
+       p beacon配置
+       div.form-group
+        label(for="t_beacon_id") t_beacon_id 
+        input#t_beacon_id.form-control(type="text", placeholder="t_beacon_id", name="obj._id",value=obj._id,disabled="disabled")
+       div.form-group
+        label ExhiId 
+        input#Exhi.form-control(type="text", placeholder="ExhiId", name="Exhi",value=obj.Exhi,disabled="disabled")
+       div.form-group
+        label artId 
+        input#Art.form-control(type="text", placeholder="artId", name="Art",value=obj.Art,disabled="disabled")
+       br
+       div.form-group 
+        label itemNum 
+        input#itemNum.form-control(type="text", placeholder="itemNum", name="itemNum",value=obj.itemNum)
+       div.form-group 
+        label beaconUUID 
+        input#beaconUUID.form-control(type="text", placeholder="beaconUUID", name="beaconUUID",value=obj.beaconUUID)
+       div.form-group
+        label beaconMajor 
+        input#major.form-control(type="text", placeholder="beaconMajor", name="major",value=obj.major)
+       br
+       div.form-group
+        label beaconMinor 
+        input#minor.form-control(type="text", placeholder="beaconMinor", name="minor",value=obj.minor)
+       div.form-group
+        label triggerDistance 
+        input#triggerDistance.form-control(type="text", placeholder="triggerDistance", name="triggerDistance",value=obj.triggerDistance)
+       br
+       button#btnSubmit.btnSubmit.btn.btn-success(type="button") submit
+       button#btnSubmitDelete.btnSubmitDelete.btn.btn-danger(type="button") delete
+     button#addBeacon.btn.btn-default(type="button") add beacon
+    - else
+        h1 添加beacon
+        -alert(artID)
+        
+
+
+       
+
+
+

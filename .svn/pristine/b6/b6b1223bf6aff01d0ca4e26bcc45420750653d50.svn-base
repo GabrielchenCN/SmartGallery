@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+      <script type="text/javascript" src="/javascripts/jquery-1.11.3.min.js"></script>
+      <script type="text/javascript" src="/javascripts/jquery.ajaxfileupload.js"></script>
+     
+    <!-- 上述3个meta标签*必须*放在最前面，任何其他内容都*必须*跟随其后！ -->
+    <title><%=title%></title>
+    <!--<script src="http://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>-->
+     
+    <!-- Bootstrap -->
+    <link href="/stylesheets/bootstrap.min.css" rel="stylesheet">
+   
+     <!--   DatePicker -->
+    <script type="text/javascript" src="/javascripts/bootstrap-datepicker.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="/stylesheets/bootstrap-datepicker3.min.css" />
+    
+    
+
+     <!--   art-controller.js -->
+     <script type="text/javascript" src="/javascripts/art-controller.js"></script>
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+      <script src="//cdn.bootcss.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="//cdn.bootcss.com/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    <script type="text/javascript">
+    $(document).ready(function () {
+  
+  $('#sandbox-container .input-daterange').datepicker({
+     format: "yyyy-mm-dd",
+     autoclose: true
+});
+});
+
+     $(document).ready(function () {
+  
+  $('.navbar-nav li').each(function(){$(this).removeClass('active')});
+  $('.navbar-nav li:eq(2)').addClass('active');
+});
+
+
+
+
+
+
+  
+</script>
+  </head>
+  <body>
+     <% include base.ejs %>
+<!--   <div class="jumbotron" align="center">
+<h1>新增画作</h1>
+<p>此页面用于新增画作</p>
+<p><a class="btn btn-primary btn-lg" href="#begin" role="button">开始</a></p>
+</div> -->
+<div class="panel panel-default">
+  <div class="panel-heading" id="begin"align="center">
+    <h1 align="center">画作信息</h1></div>
+    <input type="hidden" class="form-control" id="artid" placeholder="artid" value = '<%=data._id%>'>
+   <div class="panel-body"> 
+<form enctype = "multipart/form-data" id= "uploadForm">
+  <div class="form-group">
+    <label for="arttitle">画作名称</label>
+    <input type="text" class="form-control" id="arttitle" placeholder="画作名称" value = '<%=data.title%>'>
+  </div>
+
+  <div class="form-group">
+    <label for="artist">画作作者</label>
+    <select class="form-control" name="selectArtist" id = "selectArtist">
+            <!-- <option value = "1" >张大千</option>
+            <option value = "2" >刘德华</option> -->
+    
+     
+        </select>
+  </div>
+
+
+  <div class="form-group">
+    <label for="artprice">画作价格</label>
+    <input type="text" class="form-control" id="artprice" placeholder="画作价格" value = '<%=data.price%>'>
+  </div>
+
+  <div class="form-group">
+    <label for="artsize">画作规格</label>
+    <input type="text" class="form-control" id="artsize" placeholder="画作规格" value = '<%=data.size%>'>
+  </div>
+
+  <div class="form-group">
+    <label for="artdecsription">画作描述</label>
+
+    <textarea class="form-control" rows="3" id="artdecsription" placeholder="画作描述" ><%=data.decsription%></textarea>
+  </div>
+
+   <div class="form-group">
+    <label for="artyear">画作年份</label>
+    <input type="text" class="form-control" id="artyear" placeholder="画作年份" value = '<%=data.year%>'>
+  </div>
+
+   <div class="form-group">
+    <label for="artcateName">画作类型</label>
+   <!--  <input type="text" class="form-control" id="artcateName" placeholder="画作类型"> -->
+
+    <select class="form-control" name="artcateName" id = "artcateName">
+            <!-- <option value = "1" >张大千</option>
+            <option value = "2" >刘德华</option> -->
+  
+        </select>
+  </div>
+
+  <div class="form-group">
+  <div>
+    <label for="showposterURL">画廊图片</label>
+   <div style="width:150px;">
+     <img src="<%=data.posterURL%>" id="showposterURL" class="img-responsive">
+   </div>
+  </div>
+
+</div>
+
+
+<!-- <div class="form-group">
+   <label for="posterURL">画作主图片</label>
+    <input type="file" class="form-control" name="posterURL" id="posterURL" placeholder="画作图片"/>
+   
+</div>
+
+<div class="form-group">
+   <label for="multiView" id="multiViewLabel">画作细节图片</label>
+   <button type="button" class="btn btn-primary" id="addMultiView">添加细节图</button>
+   
+</div> -->
+
+<button type="button" class="btn btn-primary" data-toggle="modal" data-target=".bs-example-modal-sm" id="submitArtfirst">Submit</button>
+<!-- <div class="modal fade bs-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" id="myModel">
+  <div class="modal-dialog modal-sm">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title">图片上传选择</h4>
+      </div>
+      <div class="modal-body">
+        <select class="form-control" name="selectPicServer" id = "selectPicServer">
+            <option value = "1" >上传到本地服务器</option>
+            <option value = "2" >上传到cloudinary</option>
+  
+        </select>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+        <button type="button" class="btn btn-primary" id='submitArtsecond'>上传</button>
+      </div>
+    </div>/.modal-content
+  </div>
+</div> -->
+ <!--  <button type="button" class="btn btn-default" id= "submitExhi">Submit</button> -->
+</form>
+
+<div align="center">
+  <h2 >图片搜索</h2>
+  <form class="form-inline">
+    <div class="form-group">
+    <label for="picName">名称:</label>
+    <input type="text" class="form-control" id="picName" placeholder="">
+  </div>
+  <div class="form-group">
+    <label for="picFolder">文件夹:</label>
+    <input type="text" class="form-control" id="picFolder" placeholder="">
+  </div>
+  <div class="form-group">
+    <label for="picType">类别（用途）:</label>
+    <input type="text" class="form-control" id="picType" placeholder="">
+  </div>
+  <button type="button" class="btn btn-default" id="searchPic">Search</button>
+</form>
+<div align="center">
+<div class="row">
+  <div class="col-md-5 col-md-offset-1">
+  <div class="panel panel-default">
+  <!-- Default panel contents -->
+  <div class="panel-heading">搜索列表</div>
+
+  <!-- Table -->
+   <table class="table table-hover" id = "picLists">
+    <thead>
+      <tr>
+        <th>缩略图</th>
+        <th>图片名称</th>
+        <th>所属文件夹</th>
+        <th>类别（用途）</th>
+        
+        <th>操作</th>
+      </tr>
+    </thead>
+    <tbody>
+   <!--  <tr>
+     <th scope = "row">1</th>
+     <td>程序员</td>
+     <td>1200</td>
+     <td>抽象画</td>
+   
+     <td><button  type="button" class="addsearch btn btn-info  btn-xs" >配置</button></td>
+      
+      
+   </tr>  -->
+        <!-- <tr>
+        <th scope = "row">2</th>
+        <td>程序员</td>
+        <td>1200</td>
+        <td>抽象画</td>
+               
+        <td><button  type="button" class="addsearch btn btn-info  btn-xs" >配置</button></td>
+        
+        
+              </tr>
+         -->
+    </tbody>
+  </table>
+</div>
+  </div>
+ <!--  <div class="col-md-2">
+   
+  </div> -->
+  <div class="col-md-5">
+      <div class="panel panel-default">
+  <!-- Default panel contents -->
+  <div class="panel-heading">细节图表</div>
+
+  <!-- Table -->
+  <table class="table table-hover"  id = "uploadtable">
+    <thead>
+     <tr>
+        <th>缩略图</th>
+        <th>图片名称</th>
+        <th>所属文件夹</th>
+        <th>类别（用途）</th>
+        
+        <th>操作</th>
+      </tr>
+    </thead>
+    <tbody>
+   
+
+    </tbody>
+  </table>
+</div>
+  </div>
+</div>
+
+</div>
+
+
+
+
+
+
+
+</div>
+
+
+</div>
+
+
+   
+ 
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+   
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script src="/javascripts/bootstrap.min.js"></script>
+    
+  </body>
+</html>

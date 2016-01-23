@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+      <script type="text/javascript" src="/javascripts/jquery-1.11.3.min.js"></script>
+      <script type="text/javascript" src="/javascripts/jquery.ajaxfileupload.js"></script>
+     
+    <!-- 上述3个meta标签*必须*放在最前面，任何其他内容都*必须*跟随其后！ -->
+    <title><%=title%></title>
+    <!--<script src="http://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>-->
+     
+    <!-- Bootstrap -->
+    <link href="/stylesheets/bootstrap.min.css" rel="stylesheet">
+   
+     <!--   DatePicker -->
+    <script type="text/javascript" src="/javascripts/bootstrap-datepicker.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="/stylesheets/bootstrap-datepicker3.min.css" />
+    
+    
+
+     <!--   art-controller.js -->
+     <script type="text/javascript" src="/javascripts/galleries-controller.js"></script>
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+      <script src="//cdn.bootcss.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="//cdn.bootcss.com/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    <script type="text/javascript">
+    $(document).ready(function () {
+  //your code here
+  var img = '<%=data%>';
+  if(!img){
+      $("#showposterURL").parent().parent().remove();
+  }
+});
+  
+</script>
+  </head>
+  <body>
+     <% include base.ejs %>
+<!-- <div class="jumbotron" align="center">
+<h1><%=title%></h1>
+<p>此页面用于<%=title%></p>
+<p><a class="btn btn-primary btn-lg" href="#begin" role="button">开始</a></p>
+</div> -->
+<div class="panel panel-default">
+  <div class="panel-heading" id="begin"align="center">
+    <h1 align="center">画廊信息</h1></div>
+   <div class="panel-body"> 
+<form enctype = "multipart/form-data" id= "uploadForm">
+  <div class="form-group">
+    <label for="galleryName">画廊名称</label>
+    <input type="text" class="form-control" id="galleryName" placeholder="画廊名称" value = '<%=data.name%>'>
+  </div>
+
+  <div class="form-group">
+    <label for="city">画廊所在城市</label>
+    <input type="text" class="form-control" id="city" placeholder="画廊所在城市" value = '<%=data.city%>'>
+  </div>
+
+
+  <div class="form-group">
+    <label for="address">画廊地址</label>
+    <input type="text" class="form-control" id="address" placeholder="画廊地址" value = '<%=data.address%>'>
+  </div>
+
+  <div class="form-group">
+    <label for="longitude">经度 longitude</label>
+    <input type="text" class="form-control" id="longitude" placeholder="经度 longitude" 
+    value = '<%=data.longitude%>'>
+  </div>
+
+  <div class="form-group">
+    <label for="latitude">纬度 latitude</label>
+    <!-- <input type="text" class="form-control" id="artdecsription" placeholder="画作描述"> -->
+    <input type="text" class="form-control" id="latitude" placeholder="纬度 latitude" value = '<%=data.latitude%>'>
+  </div>
+
+  <div class="form-group">
+    <label for="galleryDescription">画廊描述</label>
+    <input type="text" class="form-control" id="galleryDescription" placeholder="画廊描述" value = '<%=data.description%>'>
+  </div>
+
+
+<div class="form-group">
+  <div>
+    <label for="showposterURL">画廊图片</label>
+   <div style="width:150px">
+     <img src="<%=data.posterURL%>" id="showposterURL" class="img-responsive">
+   </div>
+  </div>
+
+</div>
+
+  <input type="text" class="form-control" name="gid" id="gid" placeholder="gid" value ='<%=data._id%>' style="display:none;"/>
+  </form>
+<form  enctype = "multipart/form-data" id= "uploadPic" class="form-inline">
+<div class="form-group">
+   <label for="posterURL">配置画廊图片</label>
+   <input type="file" class="form-control" name="posterURL" id="posterURL" placeholder="配置画廊图片"/>
+   
+  </div>
+  <button type="button" class="btn btn-primary" data-toggle="modal" data-target=".bs-example-modal-sm" id="submitGalleryPic">上传</button>
+  </form>
+
+<button type="button" class="btn btn-primary"  id="submitGalleryfirst">Submit</button>
+
+<div class="modal fade bs-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" id="myModel">
+  <div class="modal-dialog modal-sm">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title">图片上传选择</h4>
+      </div>
+      <div class="modal-body">
+        <select class="form-control" name="selectPicServer" id = "selectPicServer">
+            <option value = "1" >上传到本地服务器</option>
+            <option value = "2" >上传到cloudinary</option>
+  
+        </select>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+        <button type="button" class="btn btn-primary" id='submitGallerysecond'>上传</button>
+      </div>
+    </div><!-- /.modal-content -->
+  </div>
+</div>
+ <!--  <button type="button" class="btn btn-default" id= "submitExhi">Submit</button> -->
+
+
+
+</div>
+
+
+   
+ 
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+   
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script src="/javascripts/bootstrap.min.js"></script>
+    
+  </body>
+</html>

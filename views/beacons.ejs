@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+     <script src="/javascripts/jquery-1.11.3.min.js"></script>
+    <!-- 上述3个meta标签*必须*放在最前面，任何其他内容都*必须*跟随其后！ -->
+    <title><%=title%></title>
+    <!--<script src="http://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>-->
+     
+    <!-- Bootstrap -->
+    <link href="/stylesheets/bootstrap.min.css" rel="stylesheet">
+     <!--   DatePicker -->
+    <script type="text/javascript" src="/javascripts/bootstrap-datepicker.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="/stylesheets/bootstrap-datepicker3.min.css" />
+    
+     <!--   common.js -->
+     <script type="text/javascript" src="/javascripts/beacons-controller.js"></script>
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+      <script src="//cdn.bootcss.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="//cdn.bootcss.com/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    <script type="text/javascript">
+    $(document).ready(function () {
+  //your code here
+  $('#sandbox-container .input-daterange').datepicker({
+     format: "yyyy-mm-dd",
+     autoclose: true
+});
+});
+
+ $(document).ready(function () {
+  //your code here
+  $('.navbar-nav li').each(function(){$(this).removeClass('active')});
+  $('.navbar-nav li:eq(3)').addClass('active');
+});
+  
+</script>
+  </head>
+  <body>
+     <% include base.ejs %>
+<!--   <div class="jumbotron" align="center">
+<h1><%=title%></h1>
+<p>此页面用于<%=title%></p>
+<p><a class="btn btn-primary btn-lg" href="#begin" role="button">开始</a></p>
+</div> -->
+<div class="panel panel-default">
+  <div class="panel-heading" id="begin"align="center">
+    <h1 align="center"><%=title%>信息</h1></div>
+   <div class="panel-body"> 
+  <form class="form-horizontal">
+  <div class="form-group">
+    <label for="chooseBeacons" class="col-sm-2 control-label">选择beacons</label>
+    <div class="col-sm-10">
+    <select id="chooseBeacons" class="form-control" name="chooseBeacons" >
+
+      <!-- <option value = "Beacons1">Beacons1</option>
+      <option value = "Beacons2">Beacons2</option>
+      <option value = "Beacons3">Beacons3</option>
+      <option value = "Beacons4">Beacons4</option>
+      <option value = "1">1</option> -->
+
+      
+    </select>
+      </div>
+  </div>
+
+  <div class="form-group">
+    <label for="beacons_id" class="col-sm-2 control-label">beacons_id</label>
+    <div class="col-sm-10">
+      <input type="text" class="form-control" id="beacons_id" placeholder="beacons_id" disabled>
+    </div>
+  </div>
+ <div class="form-group">
+    <label for="beaconUUID" class="col-sm-2 control-label">beaconUUID</label>
+    <div class="col-sm-10">
+      <input type="text" class="form-control" id="beaconUUID" placeholder="beaconUUID">
+    </div>
+  </div>
+   <div class="form-group">
+    <label for="major" class="col-sm-2 control-label">major</label>
+    <div class="col-sm-10">
+      <input type="text" class="form-control" id="major" placeholder="major">
+    </div>
+  </div>
+   <div class="form-group">
+    <label for="minor" class="col-sm-2 control-label">minor</label>
+    <div class="col-sm-10">
+      <input type="text" class="form-control" id="minor" placeholder="minor">
+    </div>
+  </div>
+   <div class="form-group">
+    <label for="triggerDistance" class="col-sm-2 control-label">triggerDistance</label>
+    <div class="col-sm-10">
+      <input type="text" class="form-control" id="triggerDistance" placeholder="triggerDistance">
+    </div>
+  </div>
+   <div class="form-group">
+    <label for="triggerDuration" class="col-sm-2 control-label">triggerDuration</label>
+    <div class="col-sm-10">
+      <input type="text" class="form-control" id="triggerDuration" placeholder="triggerDuration">
+    </div>
+
+  </div>
+   <div class="form-group">
+    <label for="triggerMessage" class="col-sm-2 control-label">triggerMessage</label>
+    <div class="col-sm-10">
+      
+      <textarea class="form-control" rows="3" id="triggerMessage" placeholder="triggerMessage"></textarea>
+    </div>
+  </div>
+   <div class="form-group">
+    <label for="itemNum" class="col-sm-2 control-label">itemNum</label>
+    <div class="col-sm-10">
+      <input type="text" class="form-control" id="itemNum" placeholder="itemNum">
+    </div>
+  </div>
+
+  <div class="form-group">
+    <label for="chooseExhi" class="col-sm-2 control-label">绑定展会</label>
+    <div class="col-sm-10">
+    <select id="chooseExhi" class="form-control" name="chooseExhi" >
+
+      <option value = "emptyValue">没有绑定展会</option>
+      
+
+      
+    </select>
+      </div>
+  </div>
+
+  <div align="center">
+<div class="row">
+  <div class="col-md-5 col-md-offset-1">
+  <div class="panel panel-default">
+  <!-- Default panel contents -->
+  <div class="panel-heading">展会画作列表</div>
+
+  <!-- Table -->
+  <table class="table table-hover" id = "exhiArtTable">
+    <thead>
+      <tr>
+        <th>No.</th>
+        <th>画作名称</th>
+        <th>价格</th>
+        <th>类别</th>
+        <th>作者</th>
+        <th>操作</th>
+      </tr>
+    </thead>
+    <tbody>
+    <!--   <tr>
+        <th scope = "row">1</th>
+        <td>程序员</td>
+        <td>1200</td>
+        <td>抽象画</td>
+        <td>Gabriel Chen</td>
+        <td><button  type="button" class="addsearch btn btn-info  btn-xs" >add</button></td>
+
+
+      </tr> -->
+
+    </tbody>
+  </table>
+</div>
+  </div>
+ <!--  <div class="col-md-2">
+   
+  </div> -->
+  <div class="col-md-5">
+      <div class="panel panel-default">
+  <!-- Default panel contents -->
+  <div class="panel-heading">Beacons绑定列表</div>
+
+  <!-- Table -->
+  <table class="table table-hover"  id = "beaconsArtTable">
+    <thead>
+      <tr>
+        <th>No.</th>
+        <th>画作名称</th>
+        <th>价格</th>
+        <th>类别</th>
+        <th>作者</th>
+        <th>操作</th>
+      </tr>
+    </thead>
+    <tbody>
+   
+
+    </tbody>
+  </table>
+</div>
+  </div>
+</div>
+
+</div>
+
+  <button type="button" class="btn btn-primary btn-lg col-md-5 col-md-offset-4" id= "submitBeacons" >Submit</button>
+</form>
+
+
+</div>
+
+
+
+
+
+</div>
+
+
+   
+ 
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+   
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script src="/javascripts/bootstrap.min.js"></script>
+    
+  </body>
+</html>

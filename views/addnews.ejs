@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+  
+  <head>
+    <title>
+      <%=title %>
+    </title>
+    <link rel='stylesheet' href='/stylesheets/style.css' />
+  </head>
+  
+  <body>
+    <div class="news">
+      <form name="input" action="addnews" method="post">
+        <table name='addnews' border='0'>
+        <table name='addnews' border='0'>
+          <tr>
+            <td>Title:</td>
+            <td>
+              <input type="text" name="Title" />
+            </td>
+          </tr>
+          <tr>
+            <td>PicURL:</td>
+            <td>
+              <input type="text" name="PicURL" />
+            </td>
+          </tr>
+          <tr>
+            <td>Original URL:</td>
+            <td>
+              <input type="text" name="OrigURL" />
+            </td>
+          </tr>
+          <tr>
+            <td>Content:</td>
+            <td>
+              <textarea rows="10" cols="30" name="Content"></textarea>
+            </td>
+          </tr>
+          <tr>
+            <td merge='2'>
+              <input type="submit" value="Submit" />
+            </td>
+          </tr>
+        </table>
+      </form>
+    </div>
+  </body>
+
+</html>
