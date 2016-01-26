@@ -6,6 +6,7 @@
 
 - 基于0.10.x版nodejs
 - 数据库使用非关系型数据库mongodb
+- 使用第三方文件管理系统cloudinary
 - 前端使用UI框架bootstrap和jQuery完成逻辑控制
 - 提供Restful风格API供客户端调用
 
