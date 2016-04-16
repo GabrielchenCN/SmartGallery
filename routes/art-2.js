@@ -19,11 +19,11 @@ var ObjectId = mongoose.Types.ObjectId;
 var cloudinary = require('cloudinary');
 
 /*数据库连接信息host,port,user,pwd*/
-var db_name = 'SnTPMJFRIcnMnJujtQId'; // 数据库名，从云平台获取
+var db_name = ''; // 数据库名，从云平台获取
 var db_host = 'mongo.duapp.com'; // 数据库地址
 var db_port = '8908'; // 数据库端口
-var username = '4ea46a5d26bf4884b7a12de5f362f9cd'; // 用户名（API KEY）
-var password = '78e53609d14a4d0e89138a581504a466'; // 密码(Secret KEY)
+var username = ''; // 用户名（API KEY）
+var password = ''; // 密码(Secret KEY)
 var mongo_url = "";
 
 if (process.env.homeloc == "CN_CTUL") {
@@ -32,7 +32,7 @@ if (process.env.homeloc == "CN_CTUL") {
 	db_port = '27017';
 	mongo_url = 'mongodb://' + db_host + '/' + db_name;
 } else {
-	db_name = 'SnTPMJFRIcnMnJujtQId'; // 数据库名，从云平台获取
+	db_name = ''; // 数据库名，从云平台获取
 	db_host = 'mongo.duapp.com'; // 数据库地址
 	db_port = '8908'; // 数据库端口
 	mongo_url = "mongodb://" + username + ":" + password + "@" + db_host + ':' + db_port + '/' + db_name;
@@ -40,9 +40,9 @@ if (process.env.homeloc == "CN_CTUL") {
 
 /*cloudinary 配置，需要设置成自己的key和secret*/
 cloudinary.config({
-	cloud_name: 'dzpm6vdrp',
-	api_key: '326236893721664',
-	api_secret: 'Wt8zNEivobv0AJeHvbh5JWiKowo'
+	cloud_name: '',
+	api_key: '',
+	api_secret: ''
 });
 
 /* GET users listing. */
