@@ -7,11 +7,11 @@ var cheerio = require('cheerio');
 var superagent = require('superagent');
 
 // constants for wechat account info
-var token = 'monkeymountain';
-var appid = 'wxf794c802f4ef5515';// 'wxe1a631a902d42ad8';//
-var encodingAESKey = 'o0R3yd5Jq10L3EI5ybB2oQFDKY37IG7vCx0BjQZtWJq';
-var secret = 'de5d81ced5453e8082f8b0c17124a08f';// '5a6c0dca28d2f613e5f9ace2a1d21c8b';//
-var admin = 'oclAPwfswQ6FfyRwFg5d7oDwyM5o';
+var token = '';
+var appid = '';// 'wxe1a631a902d42ad8';//
+var encodingAESKey = '';
+var secret = '';// '5a6c0dca28d2f613e5f9ace2a1d21c8b';//
+var admin = '';
 var api = new WCAPI(appid, secret);
 
 /* GET home page. */
