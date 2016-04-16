@@ -41,9 +41,9 @@ if (process.env.homeloc == "CN_CTUL") {
 
 /*cloudinary 配置，需要设置成自己的key和secret*/
 /*cloudinary.config({
-    cloud_name: 'dzpm6vdrp',
-    api_key: '326236893721664',
-    api_secret: 'Wt8zNEivobv0AJeHvbh5JWiKowo'
+    cloud_name: '',
+    api_key: '',
+    api_secret: ''
 });*/
 
 /* GET users listing. */
